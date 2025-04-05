@@ -1,0 +1,67 @@
+﻿@model StudentPerformanceApp.Models.Student
+
+@{
+    ViewData["Title"] = "Удаление студента";
+}
+
+<div class="alert alert-danger confirmation-card">
+    <h3><i class="fas fa-exclamation-triangle"></i> @ViewData["Title"]</h3>
+    <hr />
+    <h4>Вы уверены, что хотите удалить этого студента?</h4>
+
+    <div class="student-info">
+        <dl class="row">
+            <dt class="col-sm-4">Фамилия:</dt>
+            <dd class="col-sm-8">@Model.LastName</dd>
+
+            <dt class="col-sm-4">Имя:</dt>
+            <dd class="col-sm-8">@Model.FirstName</dd>
+
+            <dt class="col-sm-4">Группа:</dt>
+            <dd class="col-sm-8">@Model.Group</dd>
+
+            <dt class="col-sm-4">Баллы:</dt>
+            <dd class="col-sm-8">@Model.Score</dd>
+        </dl>
+    </div>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <div class="action-buttons">
+            <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i> Удалить
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="fas fa-times"></i> Отмена
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Styles {
+    <style>
+        .confirmation-card {
+            max-width: 600px;
+            margin: 0 auto;
+            border-radius: 10px;
+            border-left: 5px solid #dc3545;
+        }
+
+        .student-info {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        dt {
+            font-weight: 500;
+        }
+    </style>
+}

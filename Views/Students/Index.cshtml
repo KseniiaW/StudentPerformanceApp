@@ -1,0 +1,249 @@
+﻿@model IEnumerable<StudentPerformanceApp.Models.Student>
+
+@{
+    ViewData["Title"] = "Список студентов";
+}
+
+<div class="container-fluid student-management-container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="page-header">
+                <h1><i class="fas fa-users"></i> @ViewData["Title"]</h1>
+                <p class="text-muted">Управление успеваемостью студентов</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="action-buttons">
+                <a asp-action="Create" class="btn btn-primary btn-lg mr-2">
+                    <i class="fas fa-user-plus"></i> Добавить студента
+                </a>
+                <div class="btn-group" role="group">
+                    <a asp-action="TopStudents" class="btn btn-success">
+                        <i class="fas fa-trophy"></i> Топ-5
+                    </a>
+                    <a asp-action="WorstStudents" class="btn btn-warning">
+                        <i class="fas fa-exclamation-triangle"></i> Худшие-5
+                    </a>
+                    <a asp-action="ExportToFile" class="btn btn-info">
+                        <i class="fas fa-file-export"></i> Экспорт
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover student-table mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th><i class="fas fa-sort"></i> Фамилия</th>
+                                    <th><i class="fas fa-sort"></i> Имя</th>
+                                    <th><i class="fas fa-users"></i> Группа</th>
+                                    <th class="text-center"><i class="fas fa-star"></i> Баллы</th>
+                                    <th class="text-center"><i class="fas fa-cog"></i> Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td class="font-weight-bold">@Html.DisplayFor(modelItem => item.LastName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.FirstName)</td>
+                                        <td>
+                                            <span class="badge badge-primary">@Html.DisplayFor(modelItem => item.Group)</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="score-badge @GetScoreBadgeClass(item.Score)">
+                                                @Html.DisplayFor(modelItem => item.Score)
+                                            </span>
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary" title="Редактировать">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger" title="Удалить">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-info" title="Подробнее">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="stats-card card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-chart-bar"></i> Статистика группы</h5>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Общее количество:</div>
+                            <div class="stats-value text-primary">@Model.Count()</div>
+                        </div>
+                        @if (Model.Any())
+                        {
+                            <div class="stat-item">
+                                <div class="stat-label">Средний балл:</div>
+                                <div class="stats-value @GetAverageScoreClass(Model.Average(s => s.Score))">
+                                    @Model.Average(s => s.Score).ToString("F2")
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Максимальный:</div>
+                                <div class="stats-value text-success">@Model.Max(s => s.Score)</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Минимальный:</div>
+                                <div class="stats-value text-danger">@Model.Min(s => s.Score)</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetScoreBadgeClass(int score)
+    {
+        if (score >= 85) return "badge-success";
+        if (score >= 60) return "badge-primary";
+        if (score >= 40) return "badge-warning";
+        return "badge-danger";
+    }
+
+    string GetAverageScoreClass(double average)
+    {
+        if (average >= 75) return "text-success";
+        if (average >= 50) return "text-primary";
+        return "text-warning";
+    }
+}
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        .student-management-container {
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .page-header {
+            padding: 20px 0;
+        }
+
+            .page-header h1 {
+                font-weight: 600;
+                color: #2c3e50;
+            }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .student-table {
+            font-size: 0.95rem;
+        }
+
+            .student-table th {
+                position: sticky;
+                top: 0;
+                background-color: #f8f9fa !important;
+                border-top: none;
+            }
+
+        .score-badge {
+            display: inline-block;
+            min-width: 40px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85em;
+        }
+
+        .badge-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .badge-primary {
+            background-color: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .badge-warning {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .stats-card {
+            border-radius: 10px;
+            border: none;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .stat-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .stats-value {
+            font-size: 1.4em;
+            font-weight: 600;
+        }
+
+        .btn-group-sm > .btn {
+            padding: 0.25rem 0.5rem;
+        }
+
+        @@media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+}

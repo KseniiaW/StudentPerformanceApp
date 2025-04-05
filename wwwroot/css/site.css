@@ -1,0 +1,104 @@
+/* Стили для таблицы студентов */
+.student-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+    .student-table thead tr {
+        background-color: #3f51b5;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .student-table th,
+    .student-table td {
+        padding: 12px 15px;
+    }
+
+    .student-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+        .student-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+
+        .student-table tbody tr:last-of-type {
+            border-bottom: 2px solid #3f51b5;
+        }
+
+        .student-table tbody tr:hover {
+            background-color: #e3f2fd;
+            cursor: pointer;
+        }
+
+/* Стили для кнопок */
+.btn-action {
+    padding: 5px 10px;
+    margin: 2px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+    font-size: 0.8em;
+}
+.action-buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+}
+
+    .btn-sm i {
+        font-size: 0.9em;
+    }
+
+.btn-primary {
+    background-color: #3f51b5;
+}
+
+.btn-success {
+    background-color: #4CAF50;
+}
+
+.btn-warning {
+    background-color: #ff9800;
+}
+
+.btn-info {
+    background-color: #2196F3;
+}
+
+.btn-danger {
+    background-color: #f44336;
+}
+
+/* Стили для заголовков */
+.page-header {
+    color: #3f51b5;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Стили для карточек статистики */
+.stats-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stats-value {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #3f51b5;
+}
